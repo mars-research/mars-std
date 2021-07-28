@@ -1,0 +1,13 @@
+#!/usr/bin/env bash
+
+NIX_SHELL_EXPR=shell.nix
+CACHIX_CACHE=mars-research
+
+if [ ! -f $NIX_SHELL_EXPR ]; then
+	>&2 echo "$NIX_SHELL_EXPR doesn't exist"
+	exit 1
+fi
+
+# https://github.com/cachix/cachix/issues/52#issuecomment-672095057
+nix-store --query --references $(nix-instantiate $NIX_SHELL_EXPR) | \
+xargs nix-store --realise | xargs nix-store --query --requisites | cachix push $CACHIX_CACHE

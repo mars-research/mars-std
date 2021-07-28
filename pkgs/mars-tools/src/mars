@@ -1,0 +1,22 @@
+#!/usr/bin/env bash
+
+# https://gist.github.com/waylan/4080362
+
+progname=mars
+subcommand=$1
+
+case $subcommand in
+	"" | "-h" | "--help")
+		>&2 echo "Commands:"
+		>&2 echo "$progname push-shell: Push the Nix Shell to the binary cache"
+		;;
+	*)
+		shift
+		mars-${subcommand} $@
+		if [ $? = 127 ]; then
+			echo "Error: '$subcommand' is not a known command." >&2
+			echo "       Run '$progname --help' for a list of known subcommands." >&2
+			exit 1
+		fi
+		;;
+esac
