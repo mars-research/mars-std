@@ -20,6 +20,8 @@ in runCommand "reproduce-hook" (extraArgs // {
     ${python3}/bin/python ${./verify-environment.py}
 
     ${script}
+
+    exit 0
   '';
 }) ''
   echo This derivation cannot be built. You can run it with nix-shell.
