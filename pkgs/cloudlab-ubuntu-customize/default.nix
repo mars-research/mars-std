@@ -102,9 +102,14 @@ let
     Type=oneshot
     Restart=no
     ExecStart=${growScript}
+  '';
 
-    [Install]
-    WantedBy=multi-user.target
+  growLauncher = writeShellScriptBin "cloudlab-grow-root" ''
+    echo "Warning: You will no longer be able to create a disk image from this node!"
+    echo "You have 5 seconds to cancel by pressing Ctrl-C..."
+    sleep 5
+
+    sudo systemctl start cloudlab-grow-root.service
   '';
 in writeShellScriptBin "cloudlab-ubuntu-customize" ''
   set -euo pipefail
@@ -133,8 +138,8 @@ in writeShellScriptBin "cloudlab-ubuntu-customize" ''
 
   # Install rootfs grow script
   cat ${growService} > /etc/systemd/system/cloudlab-grow-root.service
-  systemctl enable cloudlab-grow-root
   ln -sf ${growScript} /nix/var/nix/gcroots/grow-script
+  /nix/var/nix/profiles/default/bin/nix-env -i ${growLauncher}
 
   # Remove motd ad
   echo "ENABLED=0" > /etc/default/motd-news
