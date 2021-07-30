@@ -40,8 +40,6 @@
         };
         script = ''
           echo This is a sample script that should print out human-readable results.
-
-          exit 0
         '';
       };
     });
