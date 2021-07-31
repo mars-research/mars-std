@@ -15,12 +15,38 @@ let
         example = "c220g2";
         default = false;
       };
+      pci = mkOption {
+        description = ''
+          PCI(e) devices to require.
+        '';
+        type = types.listOf pciType;
+        example = [
+          { pciId = "808610fb"; description = "Intel 82599 10GbE NIC"; }
+        ];
+        default = [];
+      };
       notes = mkOption {
         description = ''
           Notes that will be printed.
         '';
         type = types.str;
         default = "";
+      };
+    };
+  };
+
+  pciType = types.submodule {
+    options = {
+      pciId = mkOption {
+        description = "PCI ID";
+        example = "10de1171";
+        type = types.str;
+      };
+      description = mkOption {
+        description = "Human-readable description";
+        example = "NVIDIA Tesla M40 GPU";
+        type = types.nullOr types.str;
+        default = null;
       };
     };
   };

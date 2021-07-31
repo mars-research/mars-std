@@ -27,7 +27,7 @@ def info(description):
 
 def check(description, condition):
     if condition:
-        eprint('[ {}OK{} ] {}'.format(Fore.GREEN, Style.RESET_ALL, description))
+        eprint('[{} OK {}] {}'.format(Fore.GREEN, Style.RESET_ALL, description))
     else:
         eprint('[{}FAIL{}] {}'.format(Fore.RED, Style.RESET_ALL, description))
 
@@ -61,6 +61,27 @@ def verify_cloudlab_infra(reqs):
 
     return True
 
+def verify_pci_devices(reqs):
+    pciReq = reqs.get('pci', False)
+    if pciReq:
+        devices = []
+        with open('/proc/bus/pci/devices', 'r') as f:
+            for line in f:
+                seg = line.split()
+                devices.append({
+                    "pci_id": seg[1],
+                })
+
+        for req in pciReq:
+            label = 'Has PCI device {}'.format(req['pciId'])
+            if req['description']:
+                label += ' ({})'.format(req['description'])
+
+            if not check(label, list(filter(lambda d: d['pci_id'] == req['pciId'], devices))):
+                return False
+
+    return True
+
 if __name__ == '__main__':
     colorama.init()
 
@@ -75,6 +96,7 @@ if __name__ == '__main__':
 
     tests = [
         verify_cloudlab_infra(requirements),
+        verify_pci_devices(requirements),
     ]
 
     if sum(map(lambda x: not x, tests)) > 0:
