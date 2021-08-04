@@ -155,6 +155,10 @@ in writeShellScriptBin "cloudlab-ubuntu-customize" ''
   # Configure nix
   cp ${./nix.conf} /etc/nix/nix.conf
 
+  # Configure GRUB
+  cp ${./default.grub} /etc/default/grub
+  update-grub
+
   # Make nix-copy-closure work
   ln -sf /nix/var/nix/profiles/default/bin/nix-store /usr/local/bin/nix-store
 
