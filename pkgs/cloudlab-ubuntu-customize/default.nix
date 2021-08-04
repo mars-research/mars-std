@@ -46,6 +46,10 @@ let
     case "$-" in *i*) run_direnv_hook ;; esac
   '';
 
+  esudo = writeShellScriptBin "esudo" ''
+    exec sudo --preserve-env=PATH "$@"
+  '';
+
   installUtilities = let
     neovimWithAlias = pkgs.neovim.override {
       viAlias = true;
@@ -60,6 +64,7 @@ let
       ripgrep
 
       mars-research.mars-tools
+      esudo
       growLauncher
     ];
     commands = map (package: "/nix/var/nix/profiles/default/bin/nix-env -i ${package}") utilities;
