@@ -13,17 +13,10 @@
 # In case you are feeling adventurous, keep in mind that the agent is in Perl
 # and makes a lot of assumption about the filesystem layout. Good luck!
 
-{ symlinkJoin, writeScript, writeShellScript, writeShellScriptBin, writeText
+{ pkgs, symlinkJoin, writeScript, writeShellScript, writeShellScriptBin, writeText
 
 # direnv
 , direnv
-
-# utilities
-, cachix
-, git
-, home-manager
-, neovim
-, mars-research
 
 # terminfo
 , alacritty
@@ -38,11 +31,6 @@
 }:
 
 let
-  neovimWithAlias = neovim.override {
-    viAlias = true;
-    vimAlias = true;
-  };
-
   direnvProfile = writeScript "direnv.sh" ''
     export EDITOR=vim
     export PATH=$PATH:${direnv}/bin
@@ -57,6 +45,26 @@ let
 
     case "$-" in *i*) run_direnv_hook ;; esac
   '';
+
+  installUtilities = let
+    neovimWithAlias = pkgs.neovim.override {
+      viAlias = true;
+      vimAlias = true;
+    };
+
+    utilities = with pkgs; [
+      cachix
+      git
+      home-manager
+      neovimWithAlias
+      ripgrep
+
+      mars-research.mars-tools
+      growLauncher
+    ];
+    commands = map (package: "/nix/var/nix/profiles/default/bin/nix-env -i ${package}") utilities;
+    script = builtins.concatStringsSep "\n" commands;
+  in writeShellScript "install-utilities.sh" script;
 
   # Naive script to grow the rootfs
   growScriptPath = symlinkJoin {
@@ -133,13 +141,12 @@ in writeShellScriptBin "cloudlab-ubuntu-customize" ''
   cat ${direnvProfile} > /etc/profile.d/direnv.sh
   ln -sf ${direnvProfile} /nix/var/nix/gcroots/direnv-profile
 
-  # Install utilities
-  /nix/var/nix/profiles/default/bin/nix-env -i ${cachix} ${git} ${home-manager} ${neovimWithAlias} ${mars-research.mars-tools}
-
   # Install rootfs grow script
   cat ${growService} > /etc/systemd/system/cloudlab-grow-root.service
   ln -sf ${growScript} /nix/var/nix/gcroots/grow-script
-  /nix/var/nix/profiles/default/bin/nix-env -i ${growLauncher}
+
+  # Install utilities
+  ${installUtilities}
 
   # Remove motd ad
   echo "ENABLED=0" > /etc/default/motd-news
