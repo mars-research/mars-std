@@ -145,7 +145,7 @@ let
       tmp=$(mktemp -d)
       >&2 echo "Created temporary directory $(bold $tmp)."
 
-      out=repro-$(date -Iseconds)
+      out=$(pwd)/repro-$(date -Iseconds)
       mkdir $out
       >&2 echo "Created results directory $(highlight $out)."
 
