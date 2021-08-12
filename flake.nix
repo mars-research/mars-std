@@ -43,7 +43,10 @@
         '';
       };
     });
-  in platformOutputs // {
+  in platformOutputs // rec {
     inherit lib;
+
+    templates = import ./templates;
+    defaultTemplate = templates.rust;
   };
 }

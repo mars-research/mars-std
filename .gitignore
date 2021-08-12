@@ -1,3 +1,4 @@
 /.direnv
 /repro-*
+/templates/*/flake.lock
 result
