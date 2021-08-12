@@ -42,6 +42,11 @@ if [[ -n "$template" ]]; then
 	uri+="#$template"
 fi
 
+if [[ -f "$target/flake.nix" || -f "$target/shell.nix" || -f "$target/default.nix" ]]; then
+	>&2 echo "Project already initialized. Refusing to overwrite existing files..."
+	exit 1
+fi
+
 if nix --extra-experimental-features '' --version 2>/dev/null >&2; then
 	exec nix flake new -t $uri $target
 else 
