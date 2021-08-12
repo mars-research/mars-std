@@ -8,6 +8,7 @@ subcommand=$1
 case $subcommand in
 	"" | "-h" | "--help")
 		>&2 echo "Commands:"
+		>&2 echo "$progname init: Initialize a new project"
 		>&2 echo "$progname push-shell: Push the Nix Shell to the binary cache"
 		;;
 	*)

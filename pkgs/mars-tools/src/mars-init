@@ -1,0 +1,50 @@
+#!/usr/bin/env bash
+
+positional=()
+target="./."
+template=""
+
+print_help() {
+	>&2 echo "Usage: mars init [-t template] [directory]"
+	>&2 echo "Examples:"
+	>&2 echo "  - mars init         # in current directory"
+	>&2 echo "  - mars init dirname # in 'dirname'"
+	>&2 echo "  - mars init -t rust # with template 'rust'"
+	exit 1
+}
+
+while [[ $# -gt 0 ]]; do
+	case "$1" in
+		-t|--template)
+			template="$2"
+			shift
+			shift
+			;;
+		-h|--help)
+			print_help
+			;;
+		*)
+			positional+=("$1")
+			shift
+			;;
+	esac
+done
+
+if [[ "${#positional[@]}" -eq 1 ]]; then
+	target="${positional[0]}"
+elif [[ "${#positional[@]}" -gt 1 ]]; then
+	print_help
+fi
+
+#uri="github:mars-research/mars-std"
+uri="path:/home/zhaofeng/Git/mars-std"
+if [[ -n "$template" ]]; then
+	uri+="#$template"
+fi
+
+if nix --extra-experimental-features '' --version 2>/dev/null >&2; then
+	exec nix flake new -t $uri $target
+else 
+	>&2 "The current Nix version does not support Flakes."
+	exit 1
+fi
