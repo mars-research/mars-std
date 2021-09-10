@@ -8,6 +8,14 @@ if [ ! -f $NIX_SHELL_EXPR ]; then
 	exit 1
 fi
 
+if [ -n "$MARS_CACHIX_TOKEN_PATH" ]; then
+	if [ -f "$MARS_CACHIX_TOKEN_PATH" ]; then
+		export CACHIX_AUTH_TOKEN=$(cat $MARS_CACHIX_TOKEN_PATH)
+	else
+		>&2 echo "The specified Cachix token path ($MARS_CACHIX_TOKEN_PATH) does not exist"
+	fi
+fi
+
 # https://github.com/cachix/cachix/issues/52#issuecomment-672095057
 nix-store --query --references $(nix-instantiate $NIX_SHELL_EXPR) | \
 xargs nix-store --realise | xargs nix-store --query --requisites | cachix push $CACHIX_CACHE
