@@ -46,6 +46,8 @@
   in platformOutputs // rec {
     inherit lib;
 
+    overlay = import ./pkgs;
+
     templates = import ./templates;
     defaultTemplate = templates.rust;
   };
