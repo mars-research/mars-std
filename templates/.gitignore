@@ -1,0 +1,2 @@
+# Don't track lock files in the templates
+flake.lock
