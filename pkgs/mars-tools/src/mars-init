@@ -36,8 +36,7 @@ elif [[ "${#positional[@]}" -gt 1 ]]; then
 	print_help
 fi
 
-#uri="github:mars-research/mars-std"
-uri="path:/home/zhaofeng/Git/mars-std"
+uri="github:mars-research/mars-std"
 if [[ -n "$template" ]]; then
 	uri+="#$template"
 fi
