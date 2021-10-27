@@ -17,7 +17,7 @@
     supportedSystems = [ "x86_64-linux" "aarch64-linux" ];
 
     lib = {
-      inherit (flake-utils.lib) eachSystem;
+      inherit (flake-utils.lib) defaultSystems eachSystem;
     };
     platformOutputs = lib.eachSystem supportedSystems (system: let
       pkgs = import nixpkgs {
