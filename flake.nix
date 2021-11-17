@@ -14,7 +14,7 @@
   };
 
   outputs = { self, nixpkgs, flake-utils, rust-overlay, ... }: let
-    supportedSystems = [ "x86_64-linux" "aarch64-linux" ];
+    supportedSystems = [ "x86_64-linux" "aarch64-linux" "x86_64-darwin" "aarch64-darwin" ];
 
     lib = {
       inherit (flake-utils.lib) defaultSystems eachSystem;
