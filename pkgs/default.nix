@@ -1,7 +1,7 @@
-self: super: {
+final: prev: {
   mars-research = {
-    mars-tools = super.callPackage ./mars-tools { };
-    cloudlab-ubuntu-customize = super.callPackage ./cloudlab-ubuntu-customize { };
-    mkReproduceHook = super.callPackage ./reproduce-hook { };
+    mars-tools = final.callPackage ./mars-tools { };
+    cloudlab-ubuntu-customize = final.callPackage ./cloudlab-ubuntu-customize { };
+    mkReproduceHook = final.callPackage ./reproduce-hook { };
   };
 }
