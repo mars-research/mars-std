@@ -1,17 +1,10 @@
 # Simple customization script for Cloudlab Ubuntu 20.04 images
 #
-# Really ugly, but something we have to deal with for now. Cloudlab/Emulab
-# requires an agent (testbed.service) in the OS to dynamically create the
-# project users. Probably can be made to work on NixOS but don't really have
-# the time for it.
+# This is deprecated in favor of our new NixOS image with miniond:
 #
-# The OS must phone home with the agent on boot. Otherwise, the machine will
-# never enter "ready" state and will be forcibly power-cycled via IPMI after
-# a while. This behavior can be disabled on a per-image basis by contacting
-# the testbed admins (what we do with our OS dev images).
+#     https://github.com/mars-research/miniond
 #
-# In case you are feeling adventurous, keep in mind that the agent is in Perl
-# and makes a lot of assumption about the filesystem layout. Good luck!
+# Please use that instead.
 
 { pkgs, symlinkJoin, writeScript, writeShellScript, writeShellScriptBin, writeText
 
