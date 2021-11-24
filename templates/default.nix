@@ -1,4 +1,9 @@
 {
+  simple = {
+    path = ./simple;
+    description = "Basic development environment";
+  };
+
   rust = {
     path = ./rust;
     description = "Basic Rust development environment";
