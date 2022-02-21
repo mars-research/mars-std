@@ -2,7 +2,7 @@
   description = "Reusable Nix utilities for Mars Research projects";
 
   inputs = {
-    nixpkgs.url = "github:mars-research/nixpkgs/mars-21.11";
+    nixpkgs.url = "github:mars-research/nixpkgs/mars-22.05";
 
     flake-utils.url = "github:numtide/flake-utils";
     flake-compat = {
