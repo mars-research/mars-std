@@ -48,16 +48,16 @@
     },
     "nixpkgs": {
       "locked": {
-        "lastModified": 1655567057,
-        "narHash": "sha256-Cc5hQSMsTzOHmZnYm8OSJ5RNUp22bd5NADWLHorULWQ=",
+        "lastModified": 1656631393,
+        "narHash": "sha256-GyKsLEexlZX96TeJsT3N68CIIr4x3Rie0wdCplphRcQ=",
         "owner": "mars-research",
         "repo": "nixpkgs",
-        "rev": "e0a42267f73ea52adc061a64650fddc59906fc99",
+        "rev": "d9e83f9cc34c79ee39e852afadd86ebbc4ada129",
         "type": "github"
       },
       "original": {
         "owner": "mars-research",
-        "ref": "mars-22.05-2022062400",
+        "ref": "mars-22.05",
         "repo": "nixpkgs",
         "type": "github"
       }
