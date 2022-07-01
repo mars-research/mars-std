@@ -1,11 +1,11 @@
-name: Update rust-overlay
+name: Update dependencies
 
 on:
   workflow_dispatch: {}
   schedule:
     - cron: "0 12 * * 0"
 jobs:
-  update-rust-overlay:
+  update-deps:
     runs-on: ubuntu-latest
 
     steps:
@@ -21,6 +21,10 @@ jobs:
           nix flake lock --update-input rust-overlay
           sed -i "s/nightlyVersion = .\+;/nightlyVersion = \"$(nix eval .#rust-bin.nightly.latest._manifest.date | jq -r)\";/" templates/rust/flake.nix
 
+      - name: Update nixpkgs
+        run: |
+          nix flake lock --update-input nixpkgs
+
       - name: Check updated flake
         run: |
           nix flake check
@@ -33,7 +37,7 @@ jobs:
           git config --local user.email "actions@github.com"
           git config --local user.name "github-actions[bot]"
           git add flake.lock templates/rust/flake.nix
-          git commit -m "Update rust-overlay"
+          git commit -m "Update dependencies"
           git --no-pager show
 
       - name: Push changes
