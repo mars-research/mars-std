@@ -7,7 +7,7 @@ A set of reusable Nix utilities for Mars Research projects.
 If you don't have Nix installed yet, we recommend using the following command to install Nix in the multi-user mode:
 
 ```
-sh <(curl -L https://nixos.org/nix/install) --daemon
+curl --proto '=https' --tlsv1.2 -sSf -L https://install.determinate.systems/nix | sh -s -- install
 ```
 
 ### CloudLab
