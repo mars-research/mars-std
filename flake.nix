@@ -2,7 +2,7 @@
   description = "Reusable Nix utilities for Mars Research projects";
 
   inputs = {
-    nixpkgs.url = "github:mars-research/nixpkgs/mars-22.11";
+    nixpkgs.url = "github:NixOS/nixpkgs/nixos-23.05";
 
     flake-utils.url = "github:numtide/flake-utils";
     flake-compat = {
@@ -10,7 +10,11 @@
       flake = false;
     };
 
-    rust-overlay.url = "github:oxalica/rust-overlay";
+    rust-overlay = {
+      url = "github:oxalica/rust-overlay";
+      inputs.nixpkgs.follows = "nixpkgs";
+      inputs.flake-utils.follows = "flake-utils";
+    };
   };
 
   outputs = { self, nixpkgs, flake-utils, rust-overlay, ... }: let
