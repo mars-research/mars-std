@@ -10,7 +10,7 @@
     supportedSystems = [ "x86_64-linux" ];
 
     # Rust nightly version.
-    nightlyVersion = "2024-06-02";
+    nightlyVersion = "2024-06-09";
   in mars-std.lib.eachSystem supportedSystems (system: let
     pkgs = mars-std.legacyPackages.${system};
 
